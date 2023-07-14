@@ -1,27 +1,31 @@
-import {Header} from "../components/Header";
-import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-import {getMoviesTC, Movie} from "../store/reducers/homePageReducer";
-import {AppStateType} from "../store/store";
-import {Footer} from "../components/Footer";
+import React, {useEffect} from 'react';
 import {FilmsList} from "../components/FilmsList";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../store/store";
+import {
+    getDramaMoviesTC,
+    getTopRatedMoviesTC,
+    getUpcomingMoviesTC,
+    Movie
+} from "../store/reducers/homePageReducer";
 
-export const Home = () => {
+const Home = () => {
     const upcomingMovies = useSelector<AppStateType, Movie[]>(state => state.homePage.upcomingMovies)
-    console.log(upcomingMovies)
+    const dramaMovies = useSelector<AppStateType, Movie[]>(state => state.homePage.topDramasMovies)
+    const topRatedMovies = useSelector<AppStateType, Movie[]>(state => state.homePage.topRatedMovies)
     const dispatch = useDispatch<any>()
     useEffect(() => {
-        dispatch(getMoviesTC())
+        dispatch(getUpcomingMoviesTC())
+        dispatch(getDramaMoviesTC())
+        dispatch(getTopRatedMoviesTC())
     }, [])
     return (
-        <div className={'w-full h-full bg-slate-950 flex flex-col justify-between'}>
-            <Header/>
+        <div className={'flex flex-col gap-y-20'}>
             <FilmsList title={'Скоро в прокате'} movies={upcomingMovies}/>
-
-            <Footer/>
+            <FilmsList title={'Топ драм 2023'} movies={dramaMovies} withArrow/>
+            <FilmsList title={'Топ 250 по версии FindFilmKZ'} movies={topRatedMovies} withArrow/>
         </div>
     );
 };
 
-
-
+export default Home;

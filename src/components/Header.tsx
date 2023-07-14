@@ -1,6 +1,5 @@
 import React from 'react';
 import {Search} from "./Search";
-import {Outlet} from "react-router-dom";
 
 export const Header = () => {
     return (
