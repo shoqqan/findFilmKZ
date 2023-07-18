@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
-import {moviesAPI} from "../../api/api";
+import {moviesAPI, searchAPI} from "../../api/api";
+import {setIsLoadingAC} from "./appReducer";
 
 export type GenresType =
     "Action"|
@@ -101,6 +102,7 @@ export type HomePageType = {
     topDramasMovies: Movie[]
     topRatedMovies: Movie[]
     ratingMovies: Movie[]
+    genres: GenresType[]
 }
 type GetUpcomingMoviesAT = {
     type:'GET-UPCOMING-MOVIES'
@@ -118,6 +120,8 @@ type GetRatingMoviesAT = {
     type:'GET-RATING-MOVIES'
     movies: Movie[]
 }
+
+
 type ActionTypes =  | GetUpcomingMoviesAT
                     | GetDramaMoviesAT
                     | GetTopRatedMoviesAT
@@ -126,7 +130,37 @@ export const homePageInitState: HomePageType = {
     upcomingMovies: [] as Movie[],
     topDramasMovies: [] as Movie[],
     topRatedMovies: [] as Movie[],
-    ratingMovies: [] as Movie[]
+    ratingMovies: [] as Movie[],
+    genres: [
+            "Action",
+            "Adult",
+            "Adventure",
+            "Animation",
+            "Biography",
+            "Comedy",
+            "Crime",
+            "Documentary",
+            "Drama",
+            "Family",
+            "Fantasy",
+            "Film-Noir",
+            "Game-Show",
+            "History",
+            "Horror",
+            "Music",
+            "Musical",
+            "Mystery",
+            "News",
+            "Reality-TV",
+            "Romance",
+            "Sci-Fi",
+            "Short",
+            "Sport",
+            "Talk-Show",
+            "Thriller",
+            "War",
+            "Western"
+        ],
 }
 export const homePageReducer = (state: HomePageType = homePageInitState, action: ActionTypes): HomePageType => {
     switch (action.type) {
@@ -143,6 +177,7 @@ export const homePageReducer = (state: HomePageType = homePageInitState, action:
             return {...state, ratingMovies:action.movies}
 
         }
+
         default: {
             return state
         }
@@ -180,8 +215,10 @@ export const getDramaMoviesAC = (movies: Movie[]): GetDramaMoviesAT => (
 
 export const getUpcomingMoviesTC = () => async (dispatch:Dispatch) => {
 try {
+    dispatch(setIsLoadingAC(true))
     const movies = await moviesAPI.getUpcoming()
     dispatch(getUpcomingMoviesAC(movies))
+    dispatch(setIsLoadingAC(false))
 }
 catch (e) {
     alert(e)
@@ -190,8 +227,10 @@ catch (e) {
 
 export const getDramaMoviesTC = (page?:number) => async (dispatch:Dispatch) => {
     try {
+        dispatch(setIsLoadingAC(true))
         const movies = await moviesAPI.getDrama(page?page:1)
         dispatch(getDramaMoviesAC(movies))
+        dispatch(setIsLoadingAC(false))
     }
     catch (e) {
         alert(e)
@@ -200,18 +239,36 @@ export const getDramaMoviesTC = (page?:number) => async (dispatch:Dispatch) => {
 
 export const getRatingMoviesTC = (genres:GenresType, page?:number) => async (dispatch:Dispatch) => {
     try {
+        dispatch(setIsLoadingAC(true))
         const movies = await moviesAPI.getRatingsMovie(page?page:1, genres)
         dispatch(getRatingMoviesAC(movies))
     }
     catch (e) {
         alert(e)
     }
+    finally {
+        dispatch(setIsLoadingAC(false))
+    }
 }
 
 export const getTopRatedMoviesTC = (page?:number) => async (dispatch:Dispatch) => {
     try {
-        const movies = await moviesAPI.getTopRated(page?page:1)
+        dispatch(setIsLoadingAC(true))
+        const movies = await moviesAPI.getRatingsMovie(page?page:1)
         dispatch(getTopRatedMoviesAC(movies))
+        dispatch(setIsLoadingAC(false))
+    }
+    catch (e) {
+        alert(e)
+    }
+}
+
+export const getMoviesBySearch = (title:string) => async (dispatch:Dispatch) => {
+    try {
+        dispatch(setIsLoadingAC(true))
+        const movies = await searchAPI.getByKeyword(title)
+        dispatch(getRatingMoviesAC(movies))
+        dispatch(setIsLoadingAC(false))
     }
     catch (e) {
         alert(e)

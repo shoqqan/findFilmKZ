@@ -17,7 +17,11 @@ const instance = axios.create({
 
 export const moviesAPI = {
     getUpcoming:()=> instance.get('titles/x/upcoming').then(res=>res.data.results),
-    getRatingsMovie:(page:number,genre:GenresType)=> instance.get(`titles?list=top_rated_250&genre=${genre}&page=${page}`).then(res=>res.data.results),
+    getRatingsMovie:(page:number,genre?:GenresType)=> instance.get(`titles?list=top_rated_250${genre?`&genre=${genre}`:''}&page=${page}`).then(res=>res.data.results),
     getDrama:(page:number)=> instance.get(`titles?list=most_pop_movies&genre=Drama&page=${page}`).then(res=>res.data.results),
-    getTopRated: (page:number) => instance.get(`titles?list=top_rated_250&page=${page}`).then(res=>res.data.results)
+
+}
+
+export const searchAPI = {
+    getByKeyword: (title:string) => instance.get(`titles/search/keyword/${title}?page=1`).then(res=>res.data.results)
 }

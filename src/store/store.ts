@@ -2,12 +2,14 @@ import React from 'react';
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunk from 'redux-thunk'
 import {homePageReducer} from "./reducers/homePageReducer";
+import {appReducer} from "./reducers/appReducer";
 
 
 export type AppStateType = ReturnType<typeof rootReducers>
 
 const rootReducers = combineReducers({
-    homePage: homePageReducer
+    homePage: homePageReducer,
+    app: appReducer
 })
 
 declare global {
