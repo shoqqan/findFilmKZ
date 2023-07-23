@@ -1,6 +1,7 @@
 import React from 'react';
 import {Movie} from "../store/reducers/homePageReducer";
 import {useNavigate} from "react-router-dom";
+import {ArrowTopRight} from "../assets/icons/ArrowTopRight";
 
 type FilmsListPropsType = {
     title: string
@@ -16,16 +17,12 @@ export const    FilmsList: React.FC<FilmsListPropsType> = ({title, movies, withA
             <div className={'w-full flex gap-x-5 text-2xl font-bold mb-5'}>{title}
                 {withArrow ?
                     <button
-                        className={'w-[35px] h-[35px] flex justify-center items-center bg-sky-500 rounded-2xl mt-0.5 hover:bg-sky-700 hover:animate-pulse'}
+                        className={'w-[35px] h-[35px] flex justify-center items-center bg-purple-700 rounded-2xl mt-0.5 hover:bg-purple-700 hover:animate-pulse'}
                         onClick={() => {
                             navigate(`/main/genre-page/${url}`)
                         }}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
-                             stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round"
-                                  d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/>
-                        </svg>
+                    <ArrowTopRight/>
                     </button>
                     : <></>
                 }
