@@ -8,6 +8,7 @@ import React from "react";
 import {Home} from "./pages/Home";
 import {GenresList} from "./pages/GenresList";
 import {Circles} from "react-loader-spinner";
+import {Contact} from "./pages/Contact";
 
 
 export const App = () => {
@@ -31,6 +32,7 @@ export const App = () => {
             <Routes>
                 <Route path={'main'} element={<Main/>}>
                     <Route path={'home'} element={<Home/>}/>
+                    <Route path={'contact'} element={<Contact/>}/>
                     <Route path={'genres-list'} element={<GenresList/>}/>
                     {genres.map((el) => {
                         return (

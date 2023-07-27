@@ -37,22 +37,27 @@ export const GenrePage: React.FC<GenrePagePropsType> = ({search, title, genre}) 
                 </div>
                 <div
                     className={'w-full flex justify-center text-2xl text-white mb-10'}>{`${search ? '' : 'Top rated'} ${title}:`}</div>
+                {ratingMovies.length>0?
+                    <div className={'flex flex-col gap-y-20'}>
 
-                <div className={'flex flex-col gap-y-20'}>
-                    {ratingMovies.map((el) => {
-                        return (
-                            <div key={el._id} className={'flex gap-x-5'}>
-                                <img className={'w-72 h-48'} src={el.primaryImage?.url}/>
-                                <div className={'flex flex-col gap-y-10 text-white'}>
-                                    <div>Title: {el.originalTitleText.text}</div>
-                                    <div>Year: {el.releaseYear?.year}</div>
-                                    <div>Release: {el.releaseDate?.day}.{el.releaseDate?.month}.{el.releaseDate?.year}</div>
+                        {ratingMovies.map((el) => {
+                            return (
+                                <div key={el._id} className={'flex gap-x-5'}>
+                                    <img className={'w-72 h-48'} src={el.primaryImage?.url}/>
+                                    <div className={'flex flex-col gap-y-10 text-white'}>
+                                        <div>Title: {el.originalTitleText.text}</div>
+                                        <div>Year: {el.releaseYear?.year}</div>
+                                        <div>Release: {el.releaseDate?.day}.{el.releaseDate?.month}.{el.releaseDate?.year}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
 
-                </div>
+                    </div>
+                    :
+                    <div className={'text-white'}>Coming soon...</div>
+                }
+
                 {!search ?
                     <Pagination genre={genre!} currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={10}/>
                     :
